@@ -2,6 +2,7 @@ import React, { useEffect, useState} from 'react'
 import { Link } from 'react-router-dom'
 import { useNavigate } from "react-router";
 
+
 const Posts = ({currentUser, isLoggedIn, token}) => {
     const navigate = useNavigate()
     const [posts, setPosts] = useState([])
@@ -11,7 +12,7 @@ const Posts = ({currentUser, isLoggedIn, token}) => {
       }, [])
 
     
-    console.log(token)
+    console.log(currentUser)
     const fetchPosts = async () => {
            const response = await fetch('https://strangers-things.herokuapp.com/api/2108-CSE-RM-WEB-PT/posts/')
            const result = await response.json()
@@ -22,15 +23,16 @@ const Posts = ({currentUser, isLoggedIn, token}) => {
     useEffect(fetchPosts, [])
 
     return <>
-        <nav className="headContainer">
+        <div className="headContainer">
         <h1 className='pageHead'>Posts</h1>
-        <div className="postsNav">
-        <span input type="text" placeholder="Search Posts?"> </span>
-        <nav className="addPosts">
-            <Link to="/posts/add" >Add Post</Link>
-        </nav>
+        <span className="postsNav">
+        <input type="text" placeholder="Search Posts?"></input>
+        </span>
+        <button className="addPosts">
+        <Link to="/posts/add" >Add Post</Link>
+        </button>
         </div>
-        </nav>
+
         <nav className="bodyContainer">
         {
             
