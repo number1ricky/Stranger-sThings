@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 
+
 const CreateAccount = ({setToken, action, setIsLoggedIn, isLoggedIn}) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -24,8 +25,9 @@ const CreateAccount = ({setToken, action, setIsLoggedIn, isLoggedIn}) => {
       }
       }).then(response => response.json())
       .then(result => {
-        console.log(result)
-        return result
+        console.log(result.data)
+        const user = result.data;
+        setCurrentUser(user)
       })
       .catch(console.error);
   }
@@ -46,10 +48,12 @@ const CreateAccount = ({setToken, action, setIsLoggedIn, isLoggedIn}) => {
         })
       })
       const result = await response.json()
-      setToken(result.data.token)
+      const authToken = result.data.token
+      setToken(authToken)
+      localStorage.setItem('token', authToken)
       setIsLoggedIn(true)
-      fetchCurrentUser(result.data.token)
-      console.log(currentUser)
+      fetchCurrentUser(authToken)
+      
       setShowCredentialsError(false)
       navigate('/profile')
     } catch (error) {
